@@ -7,26 +7,38 @@ import {
   User,
   MapPinHouse,
   SquareLibrary,
+  Icon,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ModeToggle } from "./ModeToggle";
+import { useAuth } from "../context/authcontext";
 
 const SidebarDesktop = () => {
   const pathname = usePathname();
+  const { user } = useAuth();
 
-  const navItems = [
-    { href: "/", label: "Home", icon: Home },
-    { href: "/dashboard", label: "Dashboard", icon: LayoutDashboardIcon },
-    { href: "/seminars", label: "Seminar", icon: Building2 },
-    { href: "/rooms", label: "Room", icon: MapPinHouse },
-    {
-      href: "/seminarregistration",
-      label: "Registrations",
-      icon: SquareLibrary,
-    },
-    { href: "/account", label: "Account", icon: User },
-  ];
+  const navItems =
+    user.role === "admin"
+      ? [
+          { href: "/dashboard", label: "Dashboard", icon: LayoutDashboardIcon },
+          { href: "/seminars", label: "Seminar", icon: Building2 },
+          { href: "/rooms", label: "Room", icon: MapPinHouse },
+          {
+            href: "/seminarregistration",
+            label: "Registrations",
+            icon: SquareLibrary,
+          },
+          { href: "/account", label: "Account", icon: User },
+        ]
+      : [
+          { href: "/", label: "Home", icon: Home },
+          {
+            href: "/my-registrations",
+            label: "My Registrations",
+            icon: SquareLibrary,
+          },
+        ];
 
   return (
     <aside className="w-[270px] bg-white dark:bg-gray-800/50 max-w-xs h-screen fixed left-0 top-0 z-40 border-r">

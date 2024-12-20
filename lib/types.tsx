@@ -55,3 +55,15 @@ export interface SeminarRegistration {
   registered_Participants: number;
   maximum_Participants: number;
 }
+
+export interface registrationProps {
+  username: string;
+  password: string;
+  email: string;
+  name: string;
+}
+
+export interface loginProps {
+  username: string;
+  password: string;
+}

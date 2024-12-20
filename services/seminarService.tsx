@@ -13,6 +13,16 @@ export const getAllSeminars = async () => {
   }
 };
 
+// Register for a seminar
+export const registerForSeminar = async (data: {
+  SeminarNo: string;
+  CompanyNo: string;
+  ParticipantNo: string;
+}) => {
+  const response = await apiClient.post("/Seminar/registerParticipant", data); // Ensure the endpoint matches
+  return response.data;
+};
+
 // Add seminar
 export const addSeminar = async (data: Seminar) => {
   try {
@@ -23,37 +33,6 @@ export const addSeminar = async (data: Seminar) => {
     throw error;
   }
 };
-
-// Add seminar
-// export const addSeminar = async (data: Seminar) => {
-//   try {
-//     console.log("Adding Seminar - Service Layer:", {
-//       ...data,
-//       seminar_Duration: Number(data.seminarDuration),
-//       seminar_Price: Number(data.seminarPrice),
-//     });
-
-//     const response = await apiClient.post("/Seminar", {
-//       ...data,
-//       seminar_Duration: Number(data.seminarDuration),
-//       seminar_Price: Number(data.seminarPrice),
-//     });
-
-//     console.log("Seminar Add Response:", response.data);
-//     return response.data;
-//   } catch (error: any) {
-//     console.error("Error Adding seminar:", error);
-
-//     // More detailed error logging
-//     if (error.response) {
-//       console.error("Response Data:", error.response.data);
-//       console.error("Response Status:", error.response.status);
-//       console.error("Response Headers:", error.response.headers);
-//     }
-
-//     throw error;
-//   }
-// };
 
 // Get seminar by ID
 export const getSeminarById = async (docNo: string) => {

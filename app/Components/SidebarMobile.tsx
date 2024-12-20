@@ -22,22 +22,33 @@ import {
 import Link from "next/link";
 import { SidebarButtonSheet as SidebarButton } from "./SidebarButton";
 import { usePathname } from "next/navigation";
+import { useAuth } from "../context/authcontext";
 
 const SidebarMobile = () => {
   const pathname = usePathname();
+  const { user } = useAuth();
 
-  const navItems = [
-    { href: "/", label: "Home", icon: Home },
-    { href: "/dashboard", label: "Dashboard", icon: LayoutDashboardIcon },
-    { href: "/seminars", label: "Seminar", icon: Building2 },
-    { href: "/rooms", label: "Room", icon: MapPinHouse },
-    {
-      href: "/seminarregistration",
-      label: "Registrations",
-      icon: SquareLibrary,
-    },
-    { href: "/account", label: "Account", icon: User },
-  ];
+  const navItems =
+    user.role === "admin"
+      ? [
+          { href: "/dashboard", label: "Dashboard", icon: LayoutDashboardIcon },
+          { href: "/seminars", label: "Seminar", icon: Building2 },
+          { href: "/rooms", label: "Room", icon: MapPinHouse },
+          {
+            href: "/seminarregistration",
+            label: "Registrations",
+            icon: SquareLibrary,
+          },
+          { href: "/account", label: "Account", icon: User },
+        ]
+      : [
+          { href: "/", label: "Home", icon: Home },
+          {
+            href: "/my-registrations",
+            label: "My Registrations",
+            icon: SquareLibrary,
+          },
+        ];
   return (
     <Sheet>
       <SheetTrigger asChild>

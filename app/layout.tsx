@@ -1,9 +1,10 @@
-import type { Metadata } from "next";
+import { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import { ThemeProvider } from "./Components/ThemeProvider";
 import Sidebar from "./Components/Sidebar";
+import { AuthProvider } from "./context/authcontext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -22,26 +23,35 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
+  const isLoginPage =
+    typeof window !== "undefined" && window.location.pathname === "/login";
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <Toaster />
-          <Sidebar />
-          <main className="px-5 z-10 mt-16 sm:pl-[300px] bg-background dark:bg-dark-background text-foreground dark:text-dark-foreground sm:mt-0">
-            {children}
-          </main>
-        </ThemeProvider>
+        <AuthProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <Toaster />
+            {!isLoginPage && <Sidebar />}
+            <main
+              className={`px-5 z-10 ${
+                isLoginPage ? "pt-0" : "pt-16 sm:pl-[300px]"
+              } bg-background dark:bg-dark-background text-foreground dark:text-dark-foreground`}
+            >
+              {children}
+            </main>
+          </ThemeProvider>
+        </AuthProvider>
       </body>
     </html>
   );

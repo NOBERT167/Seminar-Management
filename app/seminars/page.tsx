@@ -89,7 +89,7 @@ const SeminarPage = () => {
     <div>
       <Button
         onClick={openAddModal}
-        className="text-white mb-4 mt-7 text-lg font-medium"
+        className="text-white mb-4 text-lg font-medium"
       >
         Add Seminar
       </Button>
