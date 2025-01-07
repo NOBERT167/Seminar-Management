@@ -92,17 +92,17 @@ const SidebarMobile = () => {
                 </SidebarButton>
               </Link>
             ))}
+            {role && (
+              <Button
+                variant="destructive"
+                onClick={logout}
+                className="font-inter"
+              >
+                Logout
+              </Button>
+            )}
           </div>
         </div>
-        {role && (
-          <Button
-            variant="destructive"
-            onClick={logout}
-            className="absolute bottom-10 left-4 font-inter"
-          >
-            Logout
-          </Button>
-        )}
       </SheetContent>
     </Sheet>
   );

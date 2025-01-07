@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getAllSeminarRegistrations } from "@/services/seminarRegistrationService";
 import { registerForSeminar } from "@/services/seminarService";
+import ProtectedRoute from "../Components/ProtectedRoute.";
 // import { getAllSeminarRegistrations, registerForSeminar } from "@/services/seminarService";
 
 // Define the Seminar type
@@ -66,60 +67,62 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background p-6">
-      <h1 className="text-2xl font-bold text-center mb-6">
-        Available Seminar Registrations
-      </h1>
-      {loading ? (
-        <p className="text-center">Loading seminars...</p>
-      ) : seminarRegistrations.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {seminarRegistrations.map((seminar) => (
-            <Card key={seminar.no} className="shadow-md">
-              <CardHeader>
-                <CardTitle className="text-lg">
-                  {seminar.seminar_Name}
-                </CardTitle>
-                <p className="text-sm text-muted-foreground">
-                  Starting Date:{" "}
-                  {seminar.starting_Date
-                    ? new Date(seminar.starting_Date).toLocaleDateString()
-                    : "Seminar date not assigned"}
-                </p>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm">
-                  Duration:{" "}
-                  <span className="font-medium">{seminar.duration} days</span>
-                </p>
-                <p className="text-sm">
-                  Registered Participants:{" "}
-                  <span className="font-medium">
-                    {seminar.registered_Participants}
-                  </span>
-                </p>
-                <p className="text-sm">
-                  Maximum Participants:{" "}
-                  <span className="font-medium">
-                    {seminar.maximum_Participants}
-                  </span>
-                </p>
-                <Button
-                  className="mt-4 w-full bg-blue-500 text-white"
-                  onClick={() => handleRegister(seminar.no)}
-                >
-                  Register Now
-                </Button>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      ) : (
-        <p className="text-center">
-          No seminars available for registration at the moment.
-        </p>
-      )}
-    </div>
+    <ProtectedRoute allowedRoles={["user"]}>
+      <div className="min-h-screen bg-background p-6">
+        <h1 className="text-2xl font-bold text-center mb-6">
+          Available Seminar Registrations
+        </h1>
+        {loading ? (
+          <p className="text-center">Loading seminars...</p>
+        ) : seminarRegistrations.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {seminarRegistrations.map((seminar) => (
+              <Card key={seminar.no} className="shadow-md">
+                <CardHeader>
+                  <CardTitle className="text-lg">
+                    {seminar.seminar_Name}
+                  </CardTitle>
+                  <p className="text-sm text-muted-foreground">
+                    Starting Date:{" "}
+                    {seminar.starting_Date
+                      ? new Date(seminar.starting_Date).toLocaleDateString()
+                      : "Seminar date not assigned"}
+                  </p>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm">
+                    Duration:{" "}
+                    <span className="font-medium">{seminar.duration} days</span>
+                  </p>
+                  <p className="text-sm">
+                    Registered Participants:{" "}
+                    <span className="font-medium">
+                      {seminar.registered_Participants}
+                    </span>
+                  </p>
+                  <p className="text-sm">
+                    Maximum Participants:{" "}
+                    <span className="font-medium">
+                      {seminar.maximum_Participants}
+                    </span>
+                  </p>
+                  <Button
+                    className="mt-4 w-full bg-blue-500 text-white"
+                    onClick={() => handleRegister(seminar.no)}
+                  >
+                    Register Now
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        ) : (
+          <p className="text-center">
+            No seminars available for registration at the moment.
+          </p>
+        )}
+      </div>
+    </ProtectedRoute>
   );
 };
 

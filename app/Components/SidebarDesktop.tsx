@@ -69,18 +69,18 @@ const SidebarDesktop = () => {
                 </SidebarButton>
               </Link>
             ))}
+            {role && (
+              <Button
+                variant="destructive"
+                onClick={logout}
+                className="font-inter hover:bg-red-700"
+              >
+                Logout
+              </Button>
+            )}
           </div>
         </div>
       </div>
-      {role && (
-        <Button
-          variant="destructive"
-          onClick={logout}
-          className="absolute bottom-4 left-4 font-inter"
-        >
-          Logout
-        </Button>
-      )}
     </aside>
   );
 };

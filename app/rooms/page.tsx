@@ -13,6 +13,7 @@ import Modal from "../Components/Modal";
 import toast from "react-hot-toast";
 import { Button } from "@/components/ui/button";
 import SeminarSkeletonLoader from "../Components/SeminarSkeletonLoader";
+import ProtectedRoute from "../Components/ProtectedRoute.";
 
 const RoomPage = () => {
   const [rooms, setRooms] = useState<Room[]>([]);
@@ -83,7 +84,7 @@ const RoomPage = () => {
   };
 
   return (
-    <div>
+    <ProtectedRoute allowedRoles={["admin"]}>
       <Button
         onClick={openAddModal}
         className="text-gray-300 mb-4 mt-7 text-lg font-medium"
@@ -115,7 +116,7 @@ const RoomPage = () => {
           onClose={() => setIsModalOpen(false)}
         />
       </Modal>
-    </div>
+    </ProtectedRoute>
   );
 };
 

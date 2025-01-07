@@ -13,6 +13,7 @@ import Modal from "../Components/Modal";
 import SeminarForm from "../Components/SeminarForm";
 import SeminarSkeletonLoader from "../Components/SeminarSkeletonLoader";
 import { Button } from "@/components/ui/button";
+import ProtectedRoute from "../Components/ProtectedRoute.";
 
 const SeminarPage = () => {
   const [seminars, setSeminars] = useState<Seminar[]>([]);
@@ -86,7 +87,7 @@ const SeminarPage = () => {
   };
 
   return (
-    <div>
+    <ProtectedRoute allowedRoles={["admin"]}>
       <Button
         onClick={openAddModal}
         className="text-white mb-4 text-lg font-medium"
@@ -120,7 +121,7 @@ const SeminarPage = () => {
           onClose={() => setIsModalOpen(false)}
         />
       </Modal>
-    </div>
+    </ProtectedRoute>
   );
 };
 

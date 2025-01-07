@@ -17,6 +17,7 @@ import { getAllSeminars } from "@/services/seminarService";
 import { getAllRooms } from "@/services/roomService";
 import { getAllSeminarRegistrations } from "@/services/seminarRegistrationService";
 import DashboardCard from "../Components/Dashboard/DashboardCard";
+import ProtectedRoute from "../Components/ProtectedRoute.";
 
 ChartJS.register(
   ArcElement,
@@ -105,41 +106,45 @@ const DashboardPage = () => {
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-montserrat font-bold my-4">Dashboard</h1>
+    <ProtectedRoute allowedRoles={["admin"]}>
+      <div className="container mx-auto p-4">
+        <h1 className="text-2xl font-montserrat font-bold my-4">Dashboard</h1>
 
-      {/* Overview Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-        {Object.entries(data).map(([key, value]) => (
-          <DashboardCard
-            key={key}
-            Title={key.replace(/([A-Z])/g, " $1").replace(/^./, function (str) {
-              return str.toUpperCase();
-            })}
-            Value={value}
-          />
-        ))}
-      </div>
-
-      {/* Charts */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Pie Chart */}
-        <div className="p-4 bg-white dark:bg-gray-800 rounded-md shadow-md">
-          <h3 className="text-lg font-semibold mb-4 font-montserrat">
-            Registration Status
-          </h3>
-          <Pie data={pieData} />
+        {/* Overview Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+          {Object.entries(data).map(([key, value]) => (
+            <DashboardCard
+              key={key}
+              Title={key
+                .replace(/([A-Z])/g, " $1")
+                .replace(/^./, function (str) {
+                  return str.toUpperCase();
+                })}
+              Value={value}
+            />
+          ))}
         </div>
 
-        {/* Bar Chart */}
-        <div className="p-4 bg-white dark:bg-gray-800 rounded-md shadow-md">
-          <h3 className="text-lg font-semibold mb-4 font-montserrat">
-            Totals Overview
-          </h3>
-          <Bar data={barData} />
+        {/* Charts */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Pie Chart */}
+          <div className="p-4 bg-white dark:bg-gray-800 rounded-md shadow-md">
+            <h3 className="text-lg font-semibold mb-4 font-montserrat">
+              Registration Status
+            </h3>
+            <Pie data={pieData} />
+          </div>
+
+          {/* Bar Chart */}
+          <div className="p-4 bg-white dark:bg-gray-800 rounded-md shadow-md">
+            <h3 className="text-lg font-semibold mb-4 font-montserrat">
+              Totals Overview
+            </h3>
+            <Bar data={barData} />
+          </div>
         </div>
       </div>
-    </div>
+    </ProtectedRoute>
   );
 };
 

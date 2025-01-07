@@ -7,6 +7,7 @@ import { SeminarRegistration } from "@/lib/types";
 import SeminarRegistrationDetails from "../Components/SeminarRegistrationDetails";
 import toast from "react-hot-toast";
 import RegistrationDetailsModal from "../Components/RegistrationDetailsModal";
+import ProtectedRoute from "../Components/ProtectedRoute.";
 
 const SeminarRegistrationPage = () => {
   const [registrations, setRegistrations] = useState<SeminarRegistration[]>([]);
@@ -33,7 +34,7 @@ const SeminarRegistrationPage = () => {
   };
 
   return (
-    <div>
+    <ProtectedRoute allowedRoles={["admin"]}>
       <h1 className="text-xl md:text-2xl font-semibold my-4 font-montserrat">
         Seminar Registrations
       </h1>
@@ -83,7 +84,7 @@ const SeminarRegistrationPage = () => {
           <SeminarRegistrationDetails registration={selectedRegistration} />
         )}
       </RegistrationDetailsModal>
-    </div>
+    </ProtectedRoute>
   );
 };
 
