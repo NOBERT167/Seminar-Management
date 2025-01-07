@@ -5,6 +5,7 @@ import { Toaster } from "react-hot-toast";
 import { ThemeProvider } from "./Components/ThemeProvider";
 import Sidebar from "./Components/Sidebar";
 import { AuthProvider } from "./context/authcontext";
+import SidebarDesktop from "./Components/SidebarDesktop";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,8 +27,8 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const isLoginPage =
-    typeof window !== "undefined" && window.location.pathname === "/login";
+  // const isLoginPage =
+  //   typeof window !== "undefined" && window.location.pathname === "/login";
 
   return (
     <html lang="en" suppressHydrationWarning>
@@ -42,12 +43,8 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <Toaster />
-            {!isLoginPage && <Sidebar />}
-            <main
-              className={`px-5 z-10 ${
-                isLoginPage ? "pt-0" : "pt-16 sm:pl-[300px]"
-              } bg-background dark:bg-dark-background text-foreground dark:text-dark-foreground`}
-            >
+            <Sidebar />
+            <main className="px-5 pb-8 z-10 pt-4 sm:pl-[300px] bg-background dark:bg-dark-background text-foreground dark:text-dark-foreground">
               {children}
             </main>
           </ThemeProvider>

@@ -3,28 +3,23 @@
 import React, { createContext, useContext, useState, ReactNode } from "react";
 
 interface AuthContextType {
-  user: { role: "admin" | "guest" | null };
-  login: (role: "admin" | "guest") => void;
+  role: "admin" | "user" | null;
+  setRole: (role: "admin" | "user" | null) => void;
   logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<{ role: "admin" | "guest" | null }>({
-    role: null,
-  });
-
-  const login = (role: "admin" | "guest") => {
-    setUser({ role });
-  };
+  const [role, setRole] = useState<"admin" | "user" | null>(null);
 
   const logout = () => {
-    setUser({ role: null });
+    setRole(null);
+    document.cookie = "role=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT"; // Clear role cookie
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ role, setRole, logout }}>
       {children}
     </AuthContext.Provider>
   );

@@ -18,6 +18,7 @@ import {
   X,
   MapPinHouse,
   SquareLibrary,
+  SquarePen,
 } from "lucide-react";
 import Link from "next/link";
 import { SidebarButtonSheet as SidebarButton } from "./SidebarButton";
@@ -26,10 +27,10 @@ import { useAuth } from "../context/authcontext";
 
 const SidebarMobile = () => {
   const pathname = usePathname();
-  const { user } = useAuth();
+  const { role, logout } = useAuth();
 
   const navItems =
-    user.role === "admin"
+    role === "admin"
       ? [
           { href: "/dashboard", label: "Dashboard", icon: LayoutDashboardIcon },
           { href: "/seminars", label: "Seminar", icon: Building2 },
@@ -41,14 +42,16 @@ const SidebarMobile = () => {
           },
           { href: "/account", label: "Account", icon: User },
         ]
-      : [
-          { href: "/", label: "Home", icon: Home },
+      : role === "user"
+      ? [
+          { href: "/register", label: "Register", icon: SquarePen },
           {
             href: "/my-registrations",
             label: "My Registrations",
             icon: SquareLibrary,
           },
-        ];
+        ]
+      : [];
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -91,6 +94,15 @@ const SidebarMobile = () => {
             ))}
           </div>
         </div>
+        {role && (
+          <Button
+            variant="destructive"
+            onClick={logout}
+            className="absolute bottom-10 left-4 font-inter"
+          >
+            Logout
+          </Button>
+        )}
       </SheetContent>
     </Sheet>
   );

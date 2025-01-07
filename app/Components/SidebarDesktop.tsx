@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import SidebarButton from "./SidebarButton";
 import {
@@ -8,18 +9,20 @@ import {
   MapPinHouse,
   SquareLibrary,
   Icon,
+  SquarePen,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ModeToggle } from "./ModeToggle";
 import { useAuth } from "../context/authcontext";
+import { Button } from "@/components/ui/button";
 
 const SidebarDesktop = () => {
   const pathname = usePathname();
-  const { user } = useAuth();
+  const { role, logout } = useAuth();
 
   const navItems =
-    user.role === "admin"
+    role === "admin"
       ? [
           { href: "/dashboard", label: "Dashboard", icon: LayoutDashboardIcon },
           { href: "/seminars", label: "Seminar", icon: Building2 },
@@ -31,14 +34,16 @@ const SidebarDesktop = () => {
           },
           { href: "/account", label: "Account", icon: User },
         ]
-      : [
-          { href: "/", label: "Home", icon: Home },
+      : role === "user"
+      ? [
+          { href: "/register", label: "Register", icon: SquarePen },
           {
             href: "/my-registrations",
             label: "My Registrations",
             icon: SquareLibrary,
           },
-        ];
+        ]
+      : [];
 
   return (
     <aside className="w-[270px] bg-white dark:bg-gray-800/50 max-w-xs h-screen fixed left-0 top-0 z-40 border-r">
@@ -67,6 +72,15 @@ const SidebarDesktop = () => {
           </div>
         </div>
       </div>
+      {role && (
+        <Button
+          variant="destructive"
+          onClick={logout}
+          className="absolute bottom-4 left-4 font-inter"
+        >
+          Logout
+        </Button>
+      )}
     </aside>
   );
 };
