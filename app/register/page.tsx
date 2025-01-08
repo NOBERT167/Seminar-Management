@@ -30,6 +30,7 @@ const RegisterPage = () => {
     SeminarRegistration[]
   >([]);
   const [loading, setLoading] = useState(false);
+  const [seminar, setSeminar] = useState<any>(null);
 
   const router = useRouter();
 
@@ -56,13 +57,25 @@ const RegisterPage = () => {
   const handleRegister = async (seminarNo: string) => {
     try {
       const payload = {
-        SeminarNo: seminarNo, // Matches backend SeminarParticipant.SeminarNo
-        CompanyNo: "", // Replace with the logged-in user's company number or fetch dynamically
-        ParticipantNo: "CT000267", // Replace with the participant's ID or fetch dynamically
+        SeminarNo: seminarNo,
+        CompanyNo: "", // Replace with the logged-in user's company number
+        ParticipantNo: "CT000267", // Replace with the participant's ID
       };
 
-      await registerForSeminar(payload); // Call the API service function
+      await registerForSeminar(payload); // Call the API to register
       toast.success("You have successfully registered for the seminar!");
+
+      // Update the seminarRegistrations state
+      setSeminarRegistrations((prevRegistrations) =>
+        prevRegistrations.map((seminar) =>
+          seminar.no === seminarNo
+            ? {
+                ...seminar,
+                registered_Participants: seminar.registered_Participants + 1,
+              }
+            : seminar
+        )
+      );
     } catch (error: any) {
       const errorMessage =
         error?.response?.data?.message ||
@@ -126,12 +139,6 @@ const RegisterPage = () => {
                       </span>
                     </p>
                   </div>
-                  {/* <p className="text-sm">
-                    Maximum Participants:{" "}
-                    <span className="font-medium">
-                      {seminar.maximum_Participants}
-                    </span>
-                  </p> */}
                   <div className="mt-4 flex gap-2">
                     <Button
                       className="bg-blue-500 text-white"
@@ -140,8 +147,7 @@ const RegisterPage = () => {
                       Register Now
                     </Button>
                     <Button
-                      variant="outline"
-                      className="font-montserrat"
+                      className="font-montserrat bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-800 text-gray-800 dark:text-white"
                       onClick={() =>
                         router.push(`/seminar-registration/${seminar.no}`)
                       }

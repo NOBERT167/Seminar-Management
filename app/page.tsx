@@ -97,6 +97,7 @@ const HomePage = () => {
           setLoading(true);
           setAuthRole("admin"); // Update role in Auth Context
           toast.success("Admin logged in successfully!");
+          console.log(loginData);
           document.cookie = `role=admin; path=/`; // Set role cookie
           router.push("/dashboard");
         } else {
@@ -104,6 +105,7 @@ const HomePage = () => {
           setLoading(true);
           setAuthRole("user"); // Update role in Auth Context
           toast.success("User logged in successfully!");
+          console.log(loginData);
           document.cookie = `role=user; path=/`; // Set role cookie
           router.push("/register");
         }

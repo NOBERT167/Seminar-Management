@@ -157,7 +157,7 @@ const SeminarRegistrationDetails = () => {
                 value={percentage}
                 text={`${percentage}%`}
                 styles={buildStyles({
-                  pathColor: percentage > 50 ? "green" : "red",
+                  pathColor: percentage > 80 ? "red" : "green",
                 })}
               />
             </div>
