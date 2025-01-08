@@ -30,7 +30,6 @@ const RegisterPage = () => {
     SeminarRegistration[]
   >([]);
   const [loading, setLoading] = useState(false);
-  const [seminar, setSeminar] = useState<any>(null);
 
   const router = useRouter();
 
@@ -64,10 +63,6 @@ const RegisterPage = () => {
 
       await registerForSeminar(payload); // Call the API service function
       toast.success("You have successfully registered for the seminar!");
-      setSeminar((prevSeminar: any) => ({
-        ...prevSeminar,
-        registered_Participants: prevSeminar.registered_Participants + 1,
-      }));
     } catch (error: any) {
       const errorMessage =
         error?.response?.data?.message ||

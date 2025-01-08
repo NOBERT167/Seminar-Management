@@ -100,8 +100,10 @@ const SeminarRegistrationDetails = () => {
   return (
     <ProtectedRoute allowedRoles={["admin", "user"]}>
       <div className=" mt-12 md:mt-4 p-6">
-        {/* <div className="max-w-4xl mx-auto bg-white shadow-md p-6 rounded-lg"> */}
-        <h1 className="text-4xl font-semibold font-montserrat mb-12 text-primary">
+        <Button variant="secondary" onClick={() => router.back()}>
+          Back
+        </Button>
+        <h1 className="text-4xl font-semibold font-montserrat mt-4 mb-12 text-primary">
           {seminar.seminar_Name}
         </h1>
 
