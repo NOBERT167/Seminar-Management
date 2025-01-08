@@ -248,7 +248,7 @@ const HomePage = () => {
 
                 <Button
                   onClick={handleSubmit}
-                  className="w-full font-montserrat"
+                  className="w-full font-montserrat text-white"
                 >
                   {activeTab === "login" ? "Login" : "Register"}
                 </Button>

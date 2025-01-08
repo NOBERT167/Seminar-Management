@@ -18,6 +18,7 @@ import { getAllRooms } from "@/services/roomService";
 import { getAllSeminarRegistrations } from "@/services/seminarRegistrationService";
 import DashboardCard from "../Components/Dashboard/DashboardCard";
 import ProtectedRoute from "../Components/ProtectedRoute.";
+import SeminarSkeletonLoader from "../Components/SeminarSkeletonLoader";
 
 ChartJS.register(
   ArcElement,
@@ -71,12 +72,8 @@ const DashboardPage = () => {
 
   if (loading) {
     return (
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {Array(6)
-          .fill(0)
-          .map((_, index) => (
-            <Skeleton key={index} className="h-24 w-full" />
-          ))}
+      <div className="my-8">
+        <SeminarSkeletonLoader />;
       </div>
     );
   }
