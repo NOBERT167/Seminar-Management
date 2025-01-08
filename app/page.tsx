@@ -1,5 +1,4 @@
 "use client";
-
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
@@ -14,7 +13,13 @@ import { loginProps, registrationProps } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Select,
@@ -24,10 +29,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useAuth } from "./context/authcontext";
+import { DNA } from "react-loader-spinner";
 
 const HomePage = () => {
   const [activeTab, setActiveTab] = useState<"login" | "register">("login");
   const [role, setRole] = useState<"user" | "admin">("user");
+  const [loading, setLoading] = useState(false);
 
   const [loginData, setLoginData] = useState<Partial<loginProps>>({
     username: "",
@@ -87,12 +94,14 @@ const HomePage = () => {
 
         if (role === "admin") {
           await loginAdmin(loginData as loginProps);
+          setLoading(true);
           setAuthRole("admin"); // Update role in Auth Context
           toast.success("Admin logged in successfully!");
           document.cookie = `role=admin; path=/`; // Set role cookie
           router.push("/dashboard");
         } else {
           await login(loginData as loginProps);
+          setLoading(true);
           setAuthRole("user"); // Update role in Auth Context
           toast.success("User logged in successfully!");
           document.cookie = `role=user; path=/`; // Set role cookie
@@ -112,106 +121,132 @@ const HomePage = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-background">
-      <Card className="w-full max-w-md">
-        <CardHeader>
-          <CardTitle className="text-center">
-            {activeTab === "login" ? "Login" : "Register"}
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Tabs
-            value={activeTab}
-            onValueChange={(value) =>
-              setActiveTab(value as "login" | "register")
-            }
-            className="w-full"
-          >
-            <TabsList className="grid w-full grid-cols-2 mb-4">
-              <TabsTrigger value="login">Login</TabsTrigger>
-              <TabsTrigger value="register">Register</TabsTrigger>
-            </TabsList>
+      {loading ? (
+        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="flex items-center justify-center">
+            <DNA
+              visible={true}
+              height="100"
+              width="100"
+              ariaLabel="dna-loading"
+              wrapperStyle={{}}
+              wrapperClass="dna-wrapper"
+            />
+          </div>
+        </div>
+      ) : (
+        <Card className="w-full max-w-md bg-white dark:bg-gray-800/50">
+          <CardHeader>
+            <CardTitle className="text-center text-2xl font-semibold text-primary font-montserrat">
+              {activeTab === "login" ? "Login" : "Register"}
+            </CardTitle>
+            <CardDescription className="text-center text-base font-inter">
+              {activeTab === "login" ? "Welcome back!" : "Create an account."}
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Tabs
+              value={activeTab}
+              onValueChange={(value) =>
+                setActiveTab(value as "login" | "register")
+              }
+              className="w-full"
+            >
+              <TabsList className="grid w-full grid-cols-2 mb-4">
+                <TabsTrigger value="login" className="font-montserrat">
+                  Login
+                </TabsTrigger>
+                <TabsTrigger value="register" className="font-montserrat">
+                  Register
+                </TabsTrigger>
+              </TabsList>
 
-            <div className="mb-4">
-              <Select
-                value={role}
-                onValueChange={(value) => setRole(value as "user" | "admin")}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Select Role" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="user">User</SelectItem>
-                  <SelectItem value="admin">Admin</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
+              <div className="mb-4">
+                <Select
+                  value={role}
+                  onValueChange={(value) => setRole(value as "user" | "admin")}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select Role" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="user">User</SelectItem>
+                    <SelectItem value="admin">Admin</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
 
-            <TabsContent value="register">
+              <TabsContent value="register">
+                <div className="space-y-4">
+                  <div>
+                    <Label htmlFor="name">Name</Label>
+                    <Input
+                      id="name"
+                      type="text"
+                      placeholder="Enter your name"
+                      value={registerData.name || ""}
+                      onChange={(e) =>
+                        handleInputChange("name", e.target.value)
+                      }
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="email">Email</Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      placeholder="Enter your email"
+                      value={registerData.email || ""}
+                      onChange={(e) =>
+                        handleInputChange("email", e.target.value)
+                      }
+                    />
+                  </div>
+                </div>
+              </TabsContent>
+
               <div className="space-y-4">
                 <div>
-                  <Label htmlFor="name">Name</Label>
+                  <Label htmlFor="username">Username</Label>
                   <Input
-                    id="name"
+                    id="username"
                     type="text"
-                    placeholder="Enter your name"
-                    value={registerData.name || ""}
-                    onChange={(e) => handleInputChange("name", e.target.value)}
+                    placeholder="Enter your username"
+                    value={
+                      activeTab === "login"
+                        ? loginData.username || ""
+                        : registerData.username || ""
+                    }
+                    onChange={(e) =>
+                      handleInputChange("username", e.target.value)
+                    }
                   />
                 </div>
                 <div>
-                  <Label htmlFor="email">Email</Label>
+                  <Label htmlFor="password">Password</Label>
                   <Input
-                    id="email"
-                    type="email"
-                    placeholder="Enter your email"
-                    value={registerData.email || ""}
-                    onChange={(e) => handleInputChange("email", e.target.value)}
+                    id="password"
+                    type="password"
+                    placeholder="Enter your password"
+                    value={
+                      activeTab === "login"
+                        ? loginData.password || ""
+                        : registerData.password || ""
+                    }
+                    onChange={(e) =>
+                      handleInputChange("password", e.target.value)
+                    }
                   />
                 </div>
-              </div>
-            </TabsContent>
 
-            <div className="space-y-4">
-              <div>
-                <Label htmlFor="username">Username</Label>
-                <Input
-                  id="username"
-                  type="text"
-                  placeholder="Enter your username"
-                  value={
-                    activeTab === "login"
-                      ? loginData.username || ""
-                      : registerData.username || ""
-                  }
-                  onChange={(e) =>
-                    handleInputChange("username", e.target.value)
-                  }
-                />
+                <Button onClick={handleSubmit} className="w-full">
+                  {activeTab === "login" ? "Login" : "Register"}
+                </Button>
               </div>
-              <div>
-                <Label htmlFor="password">Password</Label>
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder="Enter your password"
-                  value={
-                    activeTab === "login"
-                      ? loginData.password || ""
-                      : registerData.password || ""
-                  }
-                  onChange={(e) =>
-                    handleInputChange("password", e.target.value)
-                  }
-                />
-              </div>
-
-              <Button onClick={handleSubmit} className="w-full">
-                {activeTab === "login" ? "Login" : "Register"}
-              </Button>
-            </div>
-          </Tabs>
-        </CardContent>
-      </Card>
+            </Tabs>
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 };

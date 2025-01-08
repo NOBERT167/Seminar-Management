@@ -90,7 +90,7 @@ const SeminarPage = () => {
     <ProtectedRoute allowedRoles={["admin"]}>
       <Button
         onClick={openAddModal}
-        className="text-white mb-4 text-lg font-medium"
+        className="text-white mt-8 mb-4 text-lg font-medium"
       >
         Add Seminar
       </Button>
@@ -101,7 +101,7 @@ const SeminarPage = () => {
       {isLoading ? (
         <SeminarSkeletonLoader />
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
           {seminars.map((seminar, index) => (
             <SeminarCard
               key={index}

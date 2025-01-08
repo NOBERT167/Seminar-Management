@@ -44,7 +44,7 @@ export default function RootLayout({
           >
             <Toaster />
             <Sidebar />
-            <main className="px-5 pb-8 z-10 pt-12 sm:pl-[300px] bg-background dark:bg-dark-background text-foreground dark:text-dark-foreground">
+            <main className="px-5 z-10 sm:pl-[300px] bg-background dark:bg-dark-background text-foreground dark:text-dark-foreground">
               {children}
             </main>
           </ThemeProvider>

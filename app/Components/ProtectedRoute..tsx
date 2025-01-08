@@ -3,6 +3,7 @@
 import { useAuth } from "../context/authcontext";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { DNA } from "react-loader-spinner";
 
 const ProtectedRoute = ({
   children,
@@ -26,8 +27,18 @@ const ProtectedRoute = ({
     return <>{children}</>;
   }
 
-  // Optionally, show a loading spinner while redirecting
-  return <p>Loading...</p>;
+  return (
+    <div className="flex min-h-screen justify-center items-center">
+      <DNA
+        visible={true}
+        height="100"
+        width="100"
+        ariaLabel="dna-loading"
+        wrapperStyle={{}}
+        wrapperClass="dna-wrapper"
+      />
+    </div>
+  );
 };
 
 export default ProtectedRoute;

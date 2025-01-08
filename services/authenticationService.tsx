@@ -6,6 +6,7 @@ export const register = async (data: registrationProps) => {
   try {
     const response = await apiClient.post("/auth/register", data); // Fix payload structure
     return response.data;
+    console.log(response.data);
   } catch (error: any) {
     console.error("Register Error:", error?.response?.data || error.message);
     throw (
@@ -21,6 +22,7 @@ export const login = async (data: loginProps) => {
   try {
     const response = await apiClient.post("/auth/login", data); // Fix payload structure
     return response.data;
+    console.log(response.data);
   } catch (error: any) {
     console.error("Login Error:", error?.response?.data || error.message);
     throw (
@@ -36,6 +38,7 @@ export const registerAdmin = async (data: registrationProps) => {
   try {
     const response = await apiClient.post("/auth/register/admin", data); // Fix payload structure
     return response.data;
+    console.log(response.data);
   } catch (error: any) {
     console.error(
       "Register Admin Error:",
@@ -54,6 +57,7 @@ export const loginAdmin = async (data: loginProps) => {
   try {
     const response = await apiClient.post("/auth/login/admin", data); // Fix payload structure
     return response.data;
+    console.log(response.data);
   } catch (error: any) {
     console.error("Login Admin Error:", error?.response?.data || error.message);
     throw (
