@@ -6,7 +6,6 @@ import apiClient from "./axiosInstance";
 export const getAllRooms = async () => {
   try {
     const response = await apiClient.get("/seminar/seminarRooms");
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error("Error fetching rooms:", error);

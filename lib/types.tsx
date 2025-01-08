@@ -67,3 +67,14 @@ export interface loginProps {
   username: string;
   password: string;
 }
+
+export interface SeminarRegistration {
+  no: string;
+  seminar_Name: string;
+  starting_Date: string;
+  status: string;
+  room_Resource_No: string;
+  duration: number;
+  registered_Participants: number;
+  maximum_Participants: number;
+}

@@ -27,7 +27,6 @@ const SeminarPage = () => {
         setIsLoading(true);
         const data = await getAllSeminars();
         setSeminars(data);
-        console.log(data);
       } catch (error) {
         console.error("Error fetching seminars:", error);
       } finally {
