@@ -78,3 +78,21 @@ export interface SeminarRegistration {
   registered_Participants: number;
   maximum_Participants: number;
 }
+
+// types for login
+export interface UserData {
+  Username: string;
+  Email: string;
+  Name: string;
+  Role: string;
+  UUID: string;
+  IsActive: boolean;
+  Customer_No: string;
+  Contact_No: string;
+}
+
+export interface LoginResponse {
+  status: number;
+  message: string;
+  data: UserData;
+}
