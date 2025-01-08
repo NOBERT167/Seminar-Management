@@ -161,22 +161,29 @@ const HomePage = () => {
                 </TabsTrigger>
               </TabsList>
 
-              <div className="mb-4">
+              <div className="mb-4 font-montserrat">
                 <Select
                   value={role}
                   onValueChange={(value) => setRole(value as "user" | "admin")}
                 >
                   <SelectTrigger>
-                    <SelectValue placeholder="Select Role" />
+                    <SelectValue
+                      className="font-montserrat"
+                      placeholder="Select Role"
+                    />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="user">User</SelectItem>
-                    <SelectItem value="admin">Admin</SelectItem>
+                    <SelectItem className="font-montserrat" value="user">
+                      User
+                    </SelectItem>
+                    <SelectItem className="font-montserrat" value="admin">
+                      Admin
+                    </SelectItem>
                   </SelectContent>
                 </Select>
               </div>
 
-              <TabsContent value="register">
+              <TabsContent value="register" className="font-montserrat">
                 <div className="space-y-4">
                   <div>
                     <Label htmlFor="name">Name</Label>
@@ -222,7 +229,7 @@ const HomePage = () => {
                     }
                   />
                 </div>
-                <div>
+                <div className="font-montserrat">
                   <Label htmlFor="password">Password</Label>
                   <Input
                     id="password"
@@ -239,7 +246,10 @@ const HomePage = () => {
                   />
                 </div>
 
-                <Button onClick={handleSubmit} className="w-full">
+                <Button
+                  onClick={handleSubmit}
+                  className="w-full font-montserrat"
+                >
                   {activeTab === "login" ? "Login" : "Register"}
                 </Button>
               </div>

@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getAllSeminarRegistrations } from "@/services/seminarRegistrationService";
 import { registerForSeminar } from "@/services/seminarService";
 import ProtectedRoute from "../Components/ProtectedRoute.";
+import SeminarSkeletonLoader from "../Components/SeminarSkeletonLoader";
 // import { getAllSeminarRegistrations, registerForSeminar } from "@/services/seminarService";
 
 // Define the Seminar type
@@ -73,7 +74,7 @@ const RegisterPage = () => {
           Available Seminar Registrations
         </h1>
         {loading ? (
-          <p className="text-center">Loading seminars...</p>
+          <SeminarSkeletonLoader />
         ) : seminarRegistrations.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {seminarRegistrations.map((seminar) => (
