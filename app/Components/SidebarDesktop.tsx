@@ -32,7 +32,7 @@ const SidebarDesktop = () => {
             label: "Registrations",
             icon: SquareLibrary,
           },
-          { href: "/account", label: "Account", icon: User },
+          // { href: "/account", label: "Account", icon: User },
         ]
       : role === "user"
       ? [
@@ -42,6 +42,7 @@ const SidebarDesktop = () => {
             label: "My Registrations",
             icon: SquareLibrary,
           },
+          { href: "/account", label: "Account", icon: User },
         ]
       : [];
 

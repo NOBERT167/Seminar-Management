@@ -39,13 +39,4 @@ const DateFormatter: React.FC<DateFormatterProps> = ({
   );
 };
 
-// Example usage
-// const Example = () => {
-//   return (
-//     <div className="p-4">
-//       <DateFormatter dateString="2024-12-20" />
-//     </div>
-//   );
-// };
-
 export default DateFormatter;

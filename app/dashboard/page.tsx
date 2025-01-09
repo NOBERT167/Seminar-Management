@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from "react";
 import { Bar, Pie } from "react-chartjs-2";
-import { Skeleton } from "@/components/ui/skeleton";
 import {
   Chart as ChartJS,
   ArcElement,
@@ -19,6 +18,7 @@ import { getAllSeminarRegistrations } from "@/services/seminarRegistrationServic
 import DashboardCard from "../Components/Dashboard/DashboardCard";
 import ProtectedRoute from "../Components/ProtectedRoute.";
 import SeminarSkeletonLoader from "../Components/SeminarSkeletonLoader";
+import { useAuth } from "../context/authcontext";
 
 ChartJS.register(
   ArcElement,
@@ -104,9 +104,8 @@ const DashboardPage = () => {
 
   return (
     <ProtectedRoute allowedRoles={["admin"]}>
-      <div className="container mx-auto p-4">
+      <div className="container mx-auto p-4 mt-8 md:mt-4">
         <h1 className="text-2xl font-montserrat font-bold my-4">Dashboard</h1>
-
         {/* Overview Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
           {Object.entries(data).map(([key, value]) => (

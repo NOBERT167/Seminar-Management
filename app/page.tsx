@@ -8,7 +8,7 @@ import {
   loginAdmin,
   registerAdmin,
 } from "@/services/authenticationService";
-import { loginProps, registrationProps } from "@/lib/types";
+import { loginProps, registrationProps, UserData } from "@/lib/types";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -35,6 +35,9 @@ const HomePage = () => {
   const [activeTab, setActiveTab] = useState<"login" | "register">("login");
   const [role, setRole] = useState<"user" | "admin">("user");
   const [loading, setLoading] = useState(false);
+
+  // const [userData, setUserData] = useState<UserData | null>(null);
+  const { setUserData } = useAuth();
 
   const [loginData, setLoginData] = useState<Partial<loginProps>>({
     username: "",
@@ -93,19 +96,22 @@ const HomePage = () => {
         }
 
         if (role === "admin") {
-          await loginAdmin(loginData as loginProps);
+          const response = await loginAdmin(loginData as loginProps);
           setLoading(true);
           setAuthRole("admin"); // Update role in Auth Context
+          setUserData(response.data); // Store user data in context
+          localStorage.setItem("userData", JSON.stringify(response.data)); // Optional: persist data
           toast.success("Admin logged in successfully!");
-          console.log(loginData);
+          console.log(response.data);
           document.cookie = `role=admin; path=/`; // Set role cookie
           router.push("/dashboard");
         } else {
-          await login(loginData as loginProps);
+          const response = await login(loginData as loginProps);
           setLoading(true);
           setAuthRole("user"); // Update role in Auth Context
+          localStorage.setItem("userData", JSON.stringify(response.data)); // Optional: persist data
+          setUserData(response.data); // Store user data in context
           toast.success("User logged in successfully!");
-          console.log(loginData);
           document.cookie = `role=user; path=/`; // Set role cookie
           router.push("/register");
         }

@@ -1,4 +1,4 @@
-import { loginProps, registrationProps } from "@/lib/types";
+import { loginProps, LoginResponse, registrationProps } from "@/lib/types";
 import apiClient from "./axiosInstance";
 
 // Register user
@@ -20,7 +20,7 @@ export const register = async (data: registrationProps) => {
 export const login = async (data: loginProps) => {
   try {
     const response = await apiClient.post("/auth/login", data); // Fix payload structure
-    return response.data;
+    return response.data as LoginResponse;
   } catch (error: any) {
     console.error("Login Error:", error?.response?.data || error.message);
     throw (
@@ -53,7 +53,7 @@ export const registerAdmin = async (data: registrationProps) => {
 export const loginAdmin = async (data: loginProps) => {
   try {
     const response = await apiClient.post("/auth/login/admin", data); // Fix payload structure
-    return response.data;
+    return response.data as LoginResponse;
   } catch (error: any) {
     console.error("Login Admin Error:", error?.response?.data || error.message);
     throw (
