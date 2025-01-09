@@ -19,6 +19,7 @@ import {
 import { registerForSeminar } from "@/services/seminarService";
 import { Button } from "@/components/ui/button";
 import { DNA } from "react-loader-spinner";
+import { useAuth } from "@/app/context/authcontext";
 
 const SeminarRegistrationDetails = () => {
   const params = useParams();
@@ -26,6 +27,7 @@ const SeminarRegistrationDetails = () => {
   const [seminar, setSeminar] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const { userData } = useAuth();
 
   useEffect(() => {
     const fetchSeminar = async () => {
@@ -79,7 +81,7 @@ const SeminarRegistrationDetails = () => {
       const payload = {
         SeminarNo: seminarNo, // Matches backend SeminarParticipant.SeminarNo
         CompanyNo: "", // Replace with the logged-in user's company number or fetch dynamically
-        ParticipantNo: "CT000267", // Replace with the participant's ID or fetch dynamically
+        ParticipantNo: userData!.Contact_No,
       };
 
       await registerForSeminar(payload); // Call the API service function
