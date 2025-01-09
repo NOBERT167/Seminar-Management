@@ -11,6 +11,7 @@ import SeminarSkeletonLoader from "../Components/SeminarSkeletonLoader";
 import { Calendar, ListOrdered, Users } from "lucide-react";
 import DateFormatter from "../Components/DateFormater";
 import { useRouter } from "next/navigation";
+import { useAuth } from "../context/authcontext";
 // import { getAllSeminarRegistrations, registerForSeminar } from "@/services/seminarService";
 
 // Define the Seminar type
@@ -33,6 +34,7 @@ const RegisterPage = () => {
   const [seminar, setSeminar] = useState<any>(null);
 
   const router = useRouter();
+  const { userData } = useAuth();
 
   // Fetch seminars on page load
   useEffect(() => {
@@ -59,7 +61,7 @@ const RegisterPage = () => {
       const payload = {
         SeminarNo: seminarNo,
         CompanyNo: "", // Replace with the logged-in user's company number
-        ParticipantNo: "CT000267", // Replace with the participant's ID
+        ParticipantNo: userData!.Contact_No,
       };
 
       await registerForSeminar(payload); // Call the API to register
@@ -89,7 +91,7 @@ const RegisterPage = () => {
     <ProtectedRoute allowedRoles={["user"]}>
       <div className="min-h-screen bg-background p-6">
         <h1 className="text-2xl font-semibold font-montserrat text-center">
-          Available Seminar Registrations
+          Welcome, <span className="text-primary">{userData?.Name}</span>
         </h1>
         <p className="font-inter text-center text-foreground/80 mb-4">
           Register for this upcoming seminars now!
