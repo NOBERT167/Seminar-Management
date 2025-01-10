@@ -70,7 +70,9 @@ const MyRegistrationsPage = () => {
                     <p className="text-sm font-inter">
                       Price:{" "}
                       <span className="font-medium">
-                        {registration.SeminarPrice || "Unknown"}
+                        Ksh{" "}
+                        {registration.SeminarPrice.toLocaleString() ||
+                          "Price not assigned"}
                       </span>
                     </p>
                   </div>

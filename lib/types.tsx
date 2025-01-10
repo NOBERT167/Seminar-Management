@@ -68,6 +68,11 @@ export interface loginProps {
   password: string;
 }
 
+export interface updateProps {
+  username: string;
+  name: string;
+}
+
 export interface SeminarRegistration {
   no: string;
   seminar_Name: string;

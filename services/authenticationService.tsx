@@ -2,6 +2,7 @@ import {
   loginProps,
   LoginResponse,
   registrationProps,
+  updateProps,
   UserData,
 } from "@/lib/types";
 import apiClient from "./axiosInstance";
@@ -76,6 +77,21 @@ export const updateUser = async (userData: UserData) => {
       "/auth/update",
       userData
     );
+    return response.data;
+  } catch (error: any) {
+    console.error("Update User Error:", error?.response?.data || error.message);
+    throw (
+      error?.response?.data || {
+        message: "An error occurred while updating user.",
+      }
+    );
+  }
+};
+
+//Update username
+export const updateUserName = async (data: updateProps) => {
+  try {
+    const response = await apiClient.put("/auth/update", data);
     return response.data;
   } catch (error: any) {
     console.error("Update User Error:", error?.response?.data || error.message);
