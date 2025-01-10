@@ -89,10 +89,18 @@ export interface UserData {
   IsActive: boolean;
   Customer_No: string;
   Contact_No: string;
+  CreatedAt: string;
 }
 
 export interface LoginResponse {
   status: number;
   message: string;
   data: UserData;
+}
+
+export interface RegistrationsResponse {
+  SeminarNo: number;
+  SeminarName: string;
+  SeminarPrice: number;
+  StartingDate: string;
 }

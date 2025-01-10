@@ -1,4 +1,9 @@
-import { loginProps, LoginResponse, registrationProps } from "@/lib/types";
+import {
+  loginProps,
+  LoginResponse,
+  registrationProps,
+  UserData,
+} from "@/lib/types";
 import apiClient from "./axiosInstance";
 
 // Register user
@@ -59,6 +64,24 @@ export const loginAdmin = async (data: loginProps) => {
     throw (
       error?.response?.data || {
         message: "An error occurred while logging in as admin.",
+      }
+    );
+  }
+};
+
+//Update user
+export const updateUser = async (userData: UserData) => {
+  try {
+    const response = await apiClient.put<LoginResponse>(
+      "/auth/update",
+      userData
+    );
+    return response.data;
+  } catch (error: any) {
+    console.error("Update User Error:", error?.response?.data || error.message);
+    throw (
+      error?.response?.data || {
+        message: "An error occurred while updating user.",
       }
     );
   }

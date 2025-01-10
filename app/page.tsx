@@ -7,8 +7,14 @@ import {
   register,
   loginAdmin,
   registerAdmin,
+  updateUser,
 } from "@/services/authenticationService";
-import { loginProps, registrationProps, UserData } from "@/lib/types";
+import {
+  loginProps,
+  LoginResponse,
+  registrationProps,
+  UserData,
+} from "@/lib/types";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -68,14 +74,18 @@ const HomePage = () => {
     }
   };
 
+  // Helper function to safely check if value is empty or undefined
+  const isEmpty = (value: any): boolean => {
+    return value === undefined || value === null || value === "";
+  };
   const handleSubmit = async () => {
     try {
       if (activeTab === "register") {
         if (
-          !registerData.username ||
-          !registerData.password ||
-          !registerData.email ||
-          !registerData.name
+          isEmpty(registerData?.username) ||
+          isEmpty(registerData?.password) ||
+          isEmpty(registerData?.email) ||
+          isEmpty(registerData?.name)
         ) {
           toast.error("All fields are required for registration!");
           return;
@@ -90,40 +100,70 @@ const HomePage = () => {
         }
         setActiveTab("login");
       } else {
-        if (!loginData.username || !loginData.password) {
+        // Login flow
+        if (isEmpty(loginData?.username) || isEmpty(loginData?.password)) {
           toast.error("Username and password are required for login!");
           return;
         }
 
-        if (role === "admin") {
-          const response = await loginAdmin(loginData as loginProps);
+        try {
+          let response: LoginResponse;
+
+          // Handle initial login
+          if (role === "admin") {
+            response = await loginAdmin(loginData as loginProps);
+            if (!response || !response.data) {
+              throw new Error("Invalid login response");
+            }
+            setAuthRole("admin");
+            document.cookie = `role=admin; path=/`;
+          } else {
+            response = await login(loginData as loginProps);
+            if (!response || !response.data) {
+              throw new Error("Invalid login response");
+            }
+            setAuthRole("user");
+            document.cookie = `role=user; path=/`;
+          }
+
+          // Only attempt update if we have valid user data
+          if (response.data && isEmpty(response.data.Contact_No)) {
+            try {
+              const updatedUserData = await updateUser(response.data);
+              if (updatedUserData && updatedUserData.data) {
+                response.data = updatedUserData.data;
+              }
+            } catch (updateError) {
+              console.error("Failed to update user data:", updateError);
+              // Continue with login flow even if update fails
+            }
+          }
+
           setLoading(true);
-          setAuthRole("admin"); // Update role in Auth Context
-          setUserData(response.data); // Store user data in context
-          localStorage.setItem("userData", JSON.stringify(response.data)); // Optional: persist data
-          toast.success("Admin logged in successfully!");
-          console.log(response.data);
-          document.cookie = `role=admin; path=/`; // Set role cookie
-          router.push("/dashboard");
-        } else {
-          const response = await login(loginData as loginProps);
-          setLoading(true);
-          setAuthRole("user"); // Update role in Auth Context
-          localStorage.setItem("userData", JSON.stringify(response.data)); // Optional: persist data
-          setUserData(response.data); // Store user data in context
-          toast.success("User logged in successfully!");
-          document.cookie = `role=user; path=/`; // Set role cookie
-          router.push("/register");
+
+          // Ensure we have valid data before storing
+          if (response.data) {
+            setUserData(response.data);
+            localStorage.setItem("userData", JSON.stringify(response.data));
+          }
+
+          toast.success(
+            `${role === "admin" ? "Admin" : "User"} logged in successfully!`
+          );
+          router.push(role === "admin" ? "/dashboard" : "/register");
+        } catch (error) {
+          throw error;
         }
       }
     } catch (error: any) {
       const errorMessage =
-        error?.response?.data?.message || // Backend-defined error message
-        error?.message || // Axios or client-side error
-        "An error occurred. Please try again."; // Fallback generic message
+        error?.response?.data?.message ||
+        error?.message ||
+        "An error occurred. Please try again.";
 
-      console.error("Error:", errorMessage); // Log for debugging
-      toast.error(errorMessage); // Show error to user
+      console.error("Error:", errorMessage);
+      toast.error(errorMessage);
+      setLoading(false);
     }
   };
 

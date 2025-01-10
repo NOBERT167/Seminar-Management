@@ -1,12 +1,7 @@
+// authcontext.tsx
 "use client";
 
-import React, {
-  createContext,
-  useContext,
-  useState,
-  ReactNode,
-  useEffect,
-} from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { UserData } from "@/lib/types";
 
@@ -21,13 +16,14 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AuthProvider = ({ children }: { children: ReactNode }) => {
+export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [role, setRole] = useState<"admin" | "user" | null>(null);
   const [userData, setUserData] = useState<UserData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
   const pathname = usePathname();
 
+  // Initialize auth state from localStorage
   useEffect(() => {
     const initializeAuth = () => {
       const storedUserData = localStorage.getItem("userData");
@@ -48,7 +44,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     initializeAuth();
   }, []);
 
-  // Route protection
+  // Route protection with dynamic routes
   useEffect(() => {
     if (!isLoading) {
       const publicRoutes = ["/"];
@@ -58,14 +54,33 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         "/rooms",
         "/seminarregistration",
       ];
-      const userRoutes = ["/register", "/my-registrations", "/account"];
+      const userRoutes = [
+        "/register",
+        "/my-registrations",
+        "/account",
+        // Add pattern for dynamic route
+      ];
+
+      // Function to check if current path matches any allowed patterns
+      const isAllowedPath = (path: string, allowedRoutes: string[]) => {
+        // Check exact matches first
+        if (allowedRoutes.includes(path)) return true;
+
+        // Check dynamic routes
+        if (path.startsWith("/seminar-registration/")) {
+          // This will match any path that starts with /seminar-registration/ followed by any characters
+          return true;
+        }
+
+        return false;
+      };
 
       if (!publicRoutes.includes(pathname)) {
         if (!role) {
           router.push("/");
-        } else if (role === "admin" && !adminRoutes.includes(pathname)) {
+        } else if (role === "admin" && !isAllowedPath(pathname, adminRoutes)) {
           router.push("/dashboard");
-        } else if (role === "user" && !userRoutes.includes(pathname)) {
+        } else if (role === "user" && !isAllowedPath(pathname, userRoutes)) {
           router.push("/register");
         }
       }

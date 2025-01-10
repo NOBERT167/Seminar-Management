@@ -18,3 +18,23 @@ export const getSeminarRegistrationByNo = async (regNo: string) => {
   );
   return response.data;
 };
+
+//Get participants registartions
+export const getParticipantsRegistrations = async (participantNo: string) => {
+  try {
+    const response = await apiClient.get(
+      `/Seminar/participantRegistrations/${participantNo}`
+    );
+    return response.data;
+  } catch (error: any) {
+    console.error(
+      "Get Participants Registrations Error:",
+      error?.response?.data || error.message
+    );
+    throw (
+      error?.response?.data || {
+        message: "An error occurred while getting participants registrations.",
+      }
+    );
+  }
+};

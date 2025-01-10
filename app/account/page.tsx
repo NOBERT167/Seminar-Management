@@ -1,39 +1,3 @@
-// "use client";
-// import React from "react";
-// import { useAuth } from "../context/authcontext";
-// import ProtectedRoute from "../Components/ProtectedRoute.";
-// import { DNA } from "react-loader-spinner";
-
-// const AccountsPage = () => {
-//   const { userData } = useAuth();
-//   console.log(userData);
-
-//   if (!userData) {
-//     return (
-//       <DNA
-//         visible={true}
-//         height="80"
-//         width="80"
-//         ariaLabel="dna-loading"
-//         wrapperStyle={{}}
-//         wrapperClass="dna-wrapper"
-//       />
-//     );
-//   }
-
-//   return (
-//     <ProtectedRoute allowedRoles={["user"]}>
-//       <h2>Welcome, {userData.Name}</h2>
-//       <p>Email: {userData.Email}</p>
-//       <p>Username: {userData.Username}</p>
-//       <p>Customer No: {userData.Customer_No}</p>
-//       <p>Contact No: {userData.Contact_No}</p>
-//     </ProtectedRoute>
-//   );
-// };
-
-// export default AccountsPage;
-
 "use client";
 
 import React, { useState } from "react";
@@ -43,6 +7,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "react-hot-toast";
+import { DNA } from "react-loader-spinner";
+import DateFormatter from "../Components/DateFormater";
+import { updateUser } from "@/services/authenticationService";
 
 const AccountsPage = () => {
   const { userData } = useAuth();
@@ -53,14 +20,6 @@ const AccountsPage = () => {
   const handleSave = async () => {
     try {
       setLoading(true);
-
-      // Simulate an API call to update the name
-      // Replace with your actual API logic
-      const updatedUser = { ...userData, Name: name };
-      //   setUser(updatedUser); // Update the user in context
-      toast.success("Name updated successfully!");
-
-      setIsEditing(false);
     } catch (error) {
       toast.error("Failed to update name.");
     } finally {
@@ -71,67 +30,77 @@ const AccountsPage = () => {
   if (!userData) {
     return (
       <div className="flex justify-center items-center min-h-screen">
-        <p className="text-foreground dark:text-dark-foreground">Loading...</p>
+        <DNA
+          visible={true}
+          height="80"
+          width="80"
+          ariaLabel="dna-loading"
+          wrapperStyle={{}}
+          wrapperClass="dna-wrapper"
+        />
       </div>
     );
   }
 
   return (
     <ProtectedRoute allowedRoles={["user"]}>
-      <div className="min-h-screen bg-background dark:bg-dark-background p-6 flex justify-center items-center">
-        <div className="max-w-md w-full bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
-          {/* Avatar */}
-          <div className="flex justify-center mb-6">
-            <div className="w-20 h-20 bg-blue-500 dark:bg-blue-700 text-white flex items-center justify-center rounded-full text-2xl font-bold">
-              {userData.Name.charAt(0).toUpperCase()}
-            </div>
+      <div className="flex-1">
+        {/* Cover image section */}
+        <div className="relative h-32 md:h-44 lg:h-52">
+          <img
+            src="https://img.freepik.com/free-photo/3d-rendering-hexagonal-texture-background_23-2150796419.jpg?t=st=1736497780~exp=1736501380~hmac=38abf3fa407ed085ffbe9d58267e0605aad5d535578cb21f8a4b6f88df88e838&w=740"
+            alt="Account cover"
+            className="w-full h-full object-cover"
+          />
+        </div>
+      </div>
+      <div className="flex relative justify-center -top-8">
+        <div className="w-20 h-20 bg-blue-500 dark:bg-blue-700 text-white flex items-center justify-center rounded-full text-2xl font-bold">
+          {userData.Name.charAt(0).toUpperCase()}
+        </div>
+      </div>
+      <div className="bg-background dark:bg-dark-background -mt-6 flex justify-center items-center">
+        <div className="max-w-md w-full">
+          <h2 className="text-center text-2xl font-montserrat font-semibold text-foreground dark:text-dark-foreground">
+            {userData.Name}
+          </h2>
+          <p className="text-center font-inter text-sm text-foreground/70 dark:text-dark-foreground/70">
+            {userData.Email}
+          </p>
+          <div className="flex gap-1 justify-center text-muted-foreground text-sm font-inter">
+            Joined on{" "}
+            <p>
+              <DateFormatter dateString={userData.CreatedAt} />
+            </p>
           </div>
 
-          {/* User Info */}
-          <h2 className="text-center text-2xl font-semibold text-foreground dark:text-dark-foreground">
-            Welcome, {userData.Name}
-          </h2>
-          <p className="text-center text-sm text-foreground/70 dark:text-dark-foreground/70 mb-6">
-            Manage your account information
-          </p>
-
           {/* Editable Name */}
-          <div className="space-y-4">
+          <div className="space-y-4 font-montserrat">
             <div>
-              <Label htmlFor="name">Name</Label>
-              {isEditing ? (
+              {isEditing && (
                 <Input
                   id="name"
                   value={name}
+                  className="border border-blue-400"
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Enter your name"
                 />
-              ) : (
-                <p className="text-foreground dark:text-dark-foreground">
-                  {name}
-                </p>
               )}
             </div>
-            <div>
-              <Label>Email</Label>
-              <p className="text-foreground dark:text-dark-foreground">
-                {userData.Email}
-              </p>
-            </div>
-            <div>
-              <Label>Username</Label>
+            <div className="text-center flex items-center gap-2 font-montserrat">
+              <Label>Username: </Label>
               <p className="text-foreground dark:text-dark-foreground">
                 {userData.Username}
               </p>
             </div>
-            <div>
-              <Label>Customer No</Label>
+            <div className="text-center flex items-center gap-2 font-montserrat">
+              <Label>Customer No.: </Label>
               <p className="text-foreground dark:text-dark-foreground">
                 {userData.Customer_No}
               </p>
             </div>
-            <div>
-              <Label>Contact No</Label>
+            <div className="text-center flex items-center gap-2 font-montserrat">
+              <Label>Participant No.: </Label>
               <p className="text-foreground dark:text-dark-foreground">
                 {userData.Contact_No}
               </p>
