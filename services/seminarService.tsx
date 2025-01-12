@@ -66,3 +66,14 @@ export const deleteSeminarById = async (docNo: string) => {
     throw error;
   }
 };
+
+//register seminar (assign room, date, instructor)
+export const registerSeminar = async (seminarNo: string) => {
+  try {
+    const response = await apiClient.post(`/Seminar/register/${seminarNo}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error registering seminar:", error);
+    throw error;
+  }
+};

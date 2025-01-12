@@ -1,6 +1,6 @@
 // /services/seminarService.ts
-import { Room } from "@/lib/types";
 import apiClient from "./axiosInstance";
+import { Room } from "@/lib/types";
 
 // Get all rooms
 export const getAllRooms = async () => {

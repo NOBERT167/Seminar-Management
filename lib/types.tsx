@@ -109,3 +109,8 @@ export interface RegistrationsResponse {
   SeminarPrice: number;
   StartingDate: string;
 }
+
+export interface Instructor {
+  no: string;
+  name: string;
+}
