@@ -19,6 +19,7 @@ import DashboardCard from "../Components/Dashboard/DashboardCard";
 import ProtectedRoute from "../Components/ProtectedRoute.";
 import SeminarSkeletonLoader from "../Components/SeminarSkeletonLoader";
 import { useAuth } from "../context/authcontext";
+import { getAllInstructors } from "@/services/instructorService";
 
 ChartJS.register(
   ArcElement,
@@ -34,6 +35,7 @@ const DashboardPage = () => {
   const [data, setData] = useState({
     totalSeminars: 0,
     totalRooms: 0,
+    totalInstructors: 0,
     plannedRegistrations: 0,
     closedRegistrations: 0,
   });
@@ -46,6 +48,7 @@ const DashboardPage = () => {
         const seminars = await getAllSeminars();
         const rooms = await getAllRooms();
         const registrations = await getAllSeminarRegistrations();
+        const instructors = await getAllInstructors();
 
         const planned = registrations.filter(
           (reg: SeminarRegistration) => reg.status === "Planning"
@@ -57,6 +60,7 @@ const DashboardPage = () => {
         setData({
           totalSeminars: seminars.length,
           totalRooms: rooms.length,
+          totalInstructors: instructors.length,
           plannedRegistrations: planned,
           closedRegistrations: closed,
         });
@@ -91,12 +95,12 @@ const DashboardPage = () => {
   };
 
   const barData = {
-    labels: ["Seminars", "Rooms"],
+    labels: ["Seminars", "Rooms", "Instructors"],
     datasets: [
       {
         label: "Totals",
-        data: [data.totalSeminars, data.totalRooms],
-        backgroundColor: ["#1E88E5", "#34D399"],
+        data: [data.totalSeminars, data.totalRooms, data.totalInstructors],
+        backgroundColor: ["#1E88E5", "#34D399", "#7CB9E8"],
         borderWidth: 1,
       },
     ],
