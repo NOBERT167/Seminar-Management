@@ -8,7 +8,7 @@ interface SeminarRegistrationDetailsProps {
 const SeminarRegistrationDetails: React.FC<SeminarRegistrationDetailsProps> = ({
   registration,
 }) => (
-  <div className="bg-white dark:bg-gray-900/70 sm:max-w-2xl px-6 py-3 rounded-md shadow-md">
+  <div className="bg-white dark:bg-gray-900/90 sm:max-w-2xl px-6 py-3 rounded-md shadow-md">
     <h2 className="text-xl font-semibold mb-4">{registration.seminar_Name}</h2>
     <p className="font-inter">
       <strong>Seminar No:</strong> {registration.no}

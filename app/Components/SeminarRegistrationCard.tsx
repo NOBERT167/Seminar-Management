@@ -6,6 +6,7 @@ import {
   CardContent,
   CardFooter,
 } from "@/components/ui/card";
+import DateFormatter from "./DateFormater";
 
 interface SeminarRegistrationCardProps {
   registration: SeminarRegistration;
@@ -32,8 +33,7 @@ export const SeminarRegistrationCard: React.FC<
     </CardHeader>
     <CardContent>
       <p className="text-gray-500 dark:text-gray-400 font-inter">
-        Starting Date:{" "}
-        {new Date(registration.starting_Date).toLocaleDateString()}
+        Starting Date: <DateFormatter dateString={registration.starting_Date} />
       </p>
       <p className="text-gray-500 dark:text-gray-400 font-inter">
         Registered users: {registration.registered_Participants}/
