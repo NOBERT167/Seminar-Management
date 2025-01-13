@@ -50,7 +50,7 @@ const SeminarForm: React.FC<SeminarFormProps> = ({
   return (
     <form
       onSubmit={handleSubmit}
-      className="space-y-4 bg-white dark:bg-gray-900/70 sm:max-w-2xl px-6 py-3 rounded-md shadow-md"
+      className="space-y-4 bg-white dark:bg-gray-900/90 sm:max-w-2xl px-6 py-3 rounded-md shadow-md"
     >
       <div>
         <label className="block mb-2 text-base font-medium font-inter">
@@ -120,13 +120,13 @@ const SeminarForm: React.FC<SeminarFormProps> = ({
       <div className="flex space-x-4">
         <Button
           type="submit"
-          className="text-sm font-montserrat font-semibold dark:text-white"
+          className="text-sm font-montserrat dark:text-white"
           variant="default"
         >
           Submit
         </Button>
         <Button
-          className="text-sm font-montserrat font-semibold dark:text-white"
+          className="text-sm font-montserrat dark:text-white"
           type="button"
           variant="destructive"
           onClick={onClose}

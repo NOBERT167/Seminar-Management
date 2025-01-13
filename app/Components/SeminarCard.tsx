@@ -172,11 +172,16 @@ export const SeminarCard: React.FC<SeminarCardProps> = ({
           {/* Action Buttons */}
           <div className="w-full flex items-center justify-between">
             <div className="mt-0 gap-2 flex justify-between">
-              <Button variant="default" onClick={() => onEdit(seminar.no)}>
+              <Button
+                size={"sm"}
+                variant="default"
+                onClick={() => onEdit(seminar.no)}
+              >
                 <Pencil className="text-white" />
               </Button>
               <Button
                 variant="destructive"
+                size={"sm"}
                 onClick={() => onDelete(seminar.no)}
               >
                 <Trash />
