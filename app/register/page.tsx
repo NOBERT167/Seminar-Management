@@ -60,7 +60,7 @@ const RegisterPage = () => {
     try {
       const payload = {
         SeminarNo: seminarNo,
-        CompanyNo: "", // Replace with the logged-in user's company number
+        CompanyNo: "",
         ParticipantNo: userData!.Contact_No,
       };
 

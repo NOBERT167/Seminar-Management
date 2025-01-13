@@ -1,5 +1,5 @@
 // /services/seminarService.ts
-import { Seminar } from "@/lib/types";
+import { Seminar, SeminarRegistrationProps } from "@/lib/types";
 import apiClient from "./axiosInstance";
 
 // Get all seminars
@@ -19,7 +19,7 @@ export const registerForSeminar = async (data: {
   CompanyNo: string;
   ParticipantNo: string;
 }) => {
-  const response = await apiClient.post("/Seminar/registerParticipant", data); // Ensure the endpoint matches
+  const response = await apiClient.post("/Seminar/registerParticipant", data);
   return response.data;
 };
 
@@ -68,12 +68,11 @@ export const deleteSeminarById = async (docNo: string) => {
 };
 
 //register seminar (assign room, date, instructor)
-export const registerSeminar = async (seminarNo: string) => {
-  try {
-    const response = await apiClient.post(`/Seminar/register/${seminarNo}`);
-    return response.data;
-  } catch (error) {
-    console.error("Error registering seminar:", error);
-    throw error;
-  }
+// In seminarService.ts
+export const registerSeminar = async (
+  SeminarNo: string,
+  data: SeminarRegistrationProps
+) => {
+  const response = await apiClient.post(`/Seminar/register/${SeminarNo}`, data);
+  return response.data;
 };

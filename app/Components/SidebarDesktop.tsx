@@ -10,6 +10,7 @@ import {
   SquareLibrary,
   Icon,
   SquarePen,
+  Users,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -32,7 +33,7 @@ const SidebarDesktop = () => {
             label: "Registrations",
             icon: SquareLibrary,
           },
-          // { href: "/account", label: "Account", icon: User },
+          { href: "/instructors", label: "Instructors", icon: Users },
         ]
       : role === "user"
       ? [

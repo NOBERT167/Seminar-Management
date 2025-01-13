@@ -114,3 +114,17 @@ export interface Instructor {
   no: string;
   name: string;
 }
+
+export interface Instructor {
+  no: string;
+  name: string;
+  internal: boolean;
+  booked_till: string;
+}
+
+export interface SeminarRegistrationProps {
+  SeminarNo: string;
+  StartingDate: string;
+  PersonNo: string;
+  RoomNo: string;
+}

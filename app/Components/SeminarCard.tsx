@@ -1,5 +1,11 @@
 "use client";
-import { Instructor, Room, Seminar, SeminarCardProps } from "@/lib/types";
+import {
+  Instructor,
+  Room,
+  Seminar,
+  SeminarCardProps,
+  SeminarRegistrationProps,
+} from "@/lib/types";
 import {
   Card,
   CardHeader,
@@ -36,6 +42,8 @@ import {
 import { Calendar } from "@/components/ui/calendar";
 import { getAllRooms } from "@/services/roomService";
 import { getAllInstructors } from "@/services/instructorService";
+import { registerSeminar } from "@/services/seminarService";
+import toast from "react-hot-toast";
 
 export const SeminarCard: React.FC<SeminarCardProps> = ({
   seminar,
@@ -46,10 +54,8 @@ export const SeminarCard: React.FC<SeminarCardProps> = ({
   const [startingDate, setStartingDate] = useState<Date | undefined>(
     new Date()
   );
-  const [selectedRoom, setSelectedRoom] = useState<string | undefined>();
-  const [selectedInstructor, setSelectedInstructor] = useState<
-    string | undefined
-  >();
+  const [selectedRoom, setSelectedRoom] = useState<string>();
+  const [selectedInstructor, setSelectedInstructor] = useState<string>();
 
   const [roomnNames, setRoomnNames] = useState<Room[]>([]);
   const [instructorNames, setInstructorNames] = useState<Instructor[]>([]);
@@ -83,16 +89,47 @@ export const SeminarCard: React.FC<SeminarCardProps> = ({
     fetchInstructors();
   }, []);
 
-  const handleSubmit = () => {
-    // Add your API call for seminar registration here
-    console.log({
-      seminarNo: seminar.no,
-      startingDate: startingDate?.toISOString(),
-      selectedRoom,
-      selectedInstructor,
-    });
+  const handleSubmit = async () => {
+    try {
+      // Validate required fields
+      if (!startingDate) {
+        toast.error("Please select a starting date");
+        return;
+      }
+      if (!selectedRoom) {
+        toast.error("Please select a room");
+        return;
+      }
+      if (!selectedInstructor) {
+        toast.error("Please select an instructor");
+        return;
+      }
 
-    setOpen(false); // Close the modal after submission
+      // Format date to match backend expectations (you might need to adjust the format)
+      const formattedDate = startingDate.toISOString().split("T")[0];
+
+      const payload: SeminarRegistrationProps = {
+        SeminarNo: seminar.no,
+        StartingDate: formattedDate,
+        RoomNo: selectedRoom,
+        PersonNo: selectedInstructor,
+      };
+
+      // Add logging to help with debugging
+      console.log("Registration Payload:", payload);
+
+      await registerSeminar(seminar.no, payload);
+      toast.success("You have successfully registered for the seminar!");
+      setOpen(false);
+    } catch (error: any) {
+      // Enhanced error logging
+      console.error("Registration Error:", error);
+      console.error("Response Data:", error.response?.data);
+      toast.error(
+        `A seminar registration already exists for Seminar No. ${seminar.name} on 01/13/25.`,
+        error.response?.data?.errorMessage
+      );
+    }
   };
 
   return (
@@ -226,7 +263,7 @@ export const SeminarCard: React.FC<SeminarCardProps> = ({
                     </div>
                   </div>
                   <DialogFooter>
-                    <Button onClick={handleSubmit}>Submit</Button>
+                    <Button onClick={() => handleSubmit()}>Submit</Button>
                   </DialogFooter>
                 </DialogContent>
               </Dialog>

@@ -19,6 +19,7 @@ import {
   MapPinHouse,
   SquareLibrary,
   SquarePen,
+  Users,
 } from "lucide-react";
 import Link from "next/link";
 import { SidebarButtonSheet as SidebarButton } from "./SidebarButton";
@@ -35,6 +36,7 @@ const SidebarMobile = () => {
           { href: "/dashboard", label: "Dashboard", icon: LayoutDashboardIcon },
           { href: "/seminars", label: "Seminar", icon: Building2 },
           { href: "/rooms", label: "Room", icon: MapPinHouse },
+          { href: "/instructors", label: "Instructors", icon: Users },
           {
             href: "/seminarregistration",
             label: "Registrations",

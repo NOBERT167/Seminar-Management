@@ -52,6 +52,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         "/dashboard",
         "/seminars",
         "/rooms",
+        "/instructors",
         "/seminarregistration",
       ];
       const userRoutes = [
