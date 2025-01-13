@@ -194,26 +194,39 @@ export const SeminarCard: React.FC<SeminarCardProps> = ({
                 </DialogTrigger>
                 <DialogContent>
                   <DialogHeader>
-                    <DialogTitle>Register for {seminar.name}</DialogTitle>
+                    <DialogTitle className="font-inter">
+                      Register for {seminar.name}
+                    </DialogTitle>
                   </DialogHeader>
                   <div className="space-y-4">
                     <div>
-                      <Label htmlFor="startingDate">Starting Date</Label>
+                      <Label
+                        className="font-montserrat font-semibold"
+                        htmlFor="startingDate"
+                      >
+                        Starting Date
+                      </Label>
                       <Calendar
                         mode="single"
                         id="startingDate"
                         selected={startingDate}
                         onSelect={setStartingDate}
+                        className="font-inter"
                       />
                     </div>
                     <div>
-                      <Label htmlFor="room">Select Room</Label>
+                      <Label className="font-montserrat" htmlFor="room">
+                        Select Room
+                      </Label>
                       <Select
                         value={selectedRoom}
                         onValueChange={setSelectedRoom}
                       >
                         <SelectTrigger>
-                          <SelectValue placeholder="Select a room" />
+                          <SelectValue
+                            className="font-inter"
+                            placeholder="Select a room"
+                          />
                         </SelectTrigger>
                         <SelectContent>
                           {isLoading ? (
@@ -221,9 +234,13 @@ export const SeminarCard: React.FC<SeminarCardProps> = ({
                               Loading available rooms...
                             </p>
                           ) : (
-                            <div className="">
+                            <div>
                               {roomnNames.map((room: any) => (
-                                <SelectItem key={room.no} value={room.no}>
+                                <SelectItem
+                                  className="font-inter"
+                                  key={room.no}
+                                  value={room.no}
+                                >
                                   {room.name}
                                 </SelectItem>
                               ))}
@@ -233,13 +250,18 @@ export const SeminarCard: React.FC<SeminarCardProps> = ({
                       </Select>
                     </div>
                     <div>
-                      <Label htmlFor="instructor">Select Instructor</Label>
+                      <Label className="font-montserrat" htmlFor="instructor">
+                        Select Instructor
+                      </Label>
                       <Select
                         value={selectedInstructor}
                         onValueChange={setSelectedInstructor}
                       >
                         <SelectTrigger>
-                          <SelectValue placeholder="Select an instructor" />
+                          <SelectValue
+                            className="font-inter"
+                            placeholder="Select an instructor"
+                          />
                         </SelectTrigger>
                         <SelectContent>
                           {isLoading ? (
@@ -250,6 +272,7 @@ export const SeminarCard: React.FC<SeminarCardProps> = ({
                             <div className="">
                               {instructorNames.map((instructor) => (
                                 <SelectItem
+                                  className="font-inter"
                                   key={instructor.no}
                                   value={instructor.no}
                                 >
