@@ -17,6 +17,10 @@ const DateFormatter: React.FC<DateFormatterProps> = ({
       return "Invalid date";
     }
 
+    if (dateString === "0001-01-01" || dateString === "0001-01-01T00:00:00Z") {
+      return "Starting Date not set";
+    }
+
     const day: number = date.getDate();
     const month: string = date.toLocaleString("default", { month: "long" });
     const year: number = date.getFullYear();

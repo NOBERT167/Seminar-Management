@@ -15,7 +15,9 @@ const SeminarRegistrationDetails: React.FC<SeminarRegistrationDetailsProps> = ({
     </p>
     <p className="font-inter">
       <strong>Starting Date:</strong>{" "}
-      {new Date(registration.starting_Date).toLocaleDateString()}
+      {registration.starting_Date == "0001-01-01"
+        ? "Starting Date not set"
+        : new Date(registration.starting_Date).toLocaleDateString()}
     </p>
     <p className="font-inter">
       <strong>Status:</strong> {registration.status}
