@@ -170,8 +170,8 @@ export const SeminarCard: React.FC<SeminarCardProps> = ({
         </CardContent>
         <CardFooter>
           {/* Action Buttons */}
-          <div className="w-full flex items-center justify-between">
-            <div className="mt-0 gap-2 flex justify-between">
+          <div className="w-full flex items-center justify-between flex-wrap">
+            <div className="mt-0 gap-2 flex justify-between mb-2">
               <Button
                 size={"sm"}
                 variant="default"
@@ -191,7 +191,7 @@ export const SeminarCard: React.FC<SeminarCardProps> = ({
               <Dialog open={open} onOpenChange={setOpen}>
                 <DialogTrigger asChild>
                   <Button
-                    className="font-montserrat bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-800 text-gray-800 dark:text-white"
+                    className="font-montserrat mb-2 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-800 text-gray-800 dark:text-white"
                     variant="outline"
                   >
                     Register

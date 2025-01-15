@@ -141,7 +141,7 @@ const RegisterPage = () => {
                       </span>
                     </p>
                   </div>
-                  <div className="mt-4 flex gap-2">
+                  <div className="mt-4 flex flex-wrap gap-2">
                     <Button
                       className="bg-blue-500 text-white"
                       onClick={() => handleRegister(seminar.no)}

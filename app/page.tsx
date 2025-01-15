@@ -108,6 +108,7 @@ const HomePage = () => {
 
         try {
           let response: LoginResponse;
+          setLoading(true);
 
           // Handle initial login
           if (role === "admin") {
@@ -138,8 +139,6 @@ const HomePage = () => {
               // Continue with login flow even if update fails
             }
           }
-
-          setLoading(true);
 
           // Ensure we have valid data before storing
           if (response.data) {
