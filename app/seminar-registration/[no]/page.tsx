@@ -101,7 +101,7 @@ const SeminarRegistrationDetails = () => {
 
   return (
     <ProtectedRoute allowedRoles={["admin", "user"]}>
-      <div className=" mt-12 md:mt-4 p-6">
+      <div className="container mx-auto p-4 mt-12 md:mt-4">
         <Button variant="secondary" onClick={() => router.back()}>
           Back
         </Button>

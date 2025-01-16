@@ -85,37 +85,39 @@ const RoomPage = () => {
 
   return (
     <ProtectedRoute allowedRoles={["admin"]}>
-      <Button
-        onClick={openAddModal}
-        className="text-gray-300 mb-4 mt-7 text-lg font-medium"
-      >
-        Add Room
-      </Button>
-      <h1 className="text-xl md:text-2xl font-semibold my-4 font-montserrat">
-        Available Rooms
-      </h1>
-      {isLoading ? (
-        <SeminarSkeletonLoader />
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {rooms.map((room, index) => (
-            <RoomCard
-              key={index}
-              room={room}
-              onEdit={() => openEditModal(room)}
-              onDelete={() => handleDelete(room.no)}
-            />
-          ))}
-        </div>
-      )}
-      {/* Modal */}
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <RoomForm
-          initialValues={editRoomData || undefined}
-          onSubmit={editRoomData ? handleEdit : handleAdd}
-          onClose={() => setIsModalOpen(false)}
-        />
-      </Modal>
+      <div className="container mx-auto p-4 mt-12 md:mt-4">
+        <Button
+          onClick={openAddModal}
+          className="text-gray-300 mb-4 text-lg font-medium"
+        >
+          Add Room
+        </Button>
+        <h1 className="text-xl md:text-2xl font-semibold my-4 font-montserrat">
+          Available Rooms
+        </h1>
+        {isLoading ? (
+          <SeminarSkeletonLoader />
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {rooms.map((room, index) => (
+              <RoomCard
+                key={index}
+                room={room}
+                onEdit={() => openEditModal(room)}
+                onDelete={() => handleDelete(room.no)}
+              />
+            ))}
+          </div>
+        )}
+        {/* Modal */}
+        <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+          <RoomForm
+            initialValues={editRoomData || undefined}
+            onSubmit={editRoomData ? handleEdit : handleAdd}
+            onClose={() => setIsModalOpen(false)}
+          />
+        </Modal>
+      </div>
     </ProtectedRoute>
   );
 };

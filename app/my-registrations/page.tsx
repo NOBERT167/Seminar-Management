@@ -39,11 +39,11 @@ const MyRegistrationsPage = () => {
 
   return (
     <ProtectedRoute allowedRoles={["user"]}>
-      <div className="min-h-screen bg-background p-6">
+      <div className="min-h-screen bg-background container mx-auto p-4 mt-12 md:mt-4">
         <h1 className="text-2xl font-semibold font-montserrat text-center">
           My Seminar Registrations
         </h1>
-        <p className="font-inter text-center text-foreground/80 mb-4">
+        <p className="font-inter text-center text-foreground/80 mb-8">
           Here are the seminars you have registered for:
         </p>
         {loading ? (

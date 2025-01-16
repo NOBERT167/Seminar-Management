@@ -87,39 +87,41 @@ const SeminarPage = () => {
 
   return (
     <ProtectedRoute allowedRoles={["admin"]}>
-      <Button
-        onClick={openAddModal}
-        className="text-white mt-8 mb-4 text-lg font-medium"
-      >
-        Add Seminar
-      </Button>
+      <div className="container mx-auto p-4 mt-12 md:mt-4">
+        <Button
+          onClick={openAddModal}
+          className="text-white mb-4 text-lg font-medium"
+        >
+          Add Seminar
+        </Button>
 
-      <h1 className="text-xl md:text-2xl font-semibold my-4 font-montserrat">
-        Available Seminars
-      </h1>
-      {isLoading ? (
-        <SeminarSkeletonLoader />
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-          {seminars.map((seminar, index) => (
-            <SeminarCard
-              key={index}
-              seminar={seminar}
-              onEdit={() => openEditModal(seminar)}
-              onDelete={deleteSeminar}
-            />
-          ))}
-        </div>
-      )}
+        <h1 className="text-xl md:text-2xl font-semibold my-4 font-montserrat">
+          Available Seminars
+        </h1>
+        {isLoading ? (
+          <SeminarSkeletonLoader />
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+            {seminars.map((seminar, index) => (
+              <SeminarCard
+                key={index}
+                seminar={seminar}
+                onEdit={() => openEditModal(seminar)}
+                onDelete={deleteSeminar}
+              />
+            ))}
+          </div>
+        )}
 
-      {/* Modal */}
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <SeminarForm
-          initialValues={editSeminarData || undefined} // For edit
-          onSubmit={editSeminarData ? handleEdit : handleAdd}
-          onClose={() => setIsModalOpen(false)}
-        />
-      </Modal>
+        {/* Modal */}
+        <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+          <SeminarForm
+            initialValues={editSeminarData || undefined} // For edit
+            onSubmit={editSeminarData ? handleEdit : handleAdd}
+            onClose={() => setIsModalOpen(false)}
+          />
+        </Modal>
+      </div>
     </ProtectedRoute>
   );
 };

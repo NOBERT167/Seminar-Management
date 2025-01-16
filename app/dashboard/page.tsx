@@ -76,8 +76,8 @@ const DashboardPage = () => {
 
   if (loading) {
     return (
-      <div className="my-8">
-        <SeminarSkeletonLoader />;
+      <div className="mt-12 md:mt-8">
+        <SeminarSkeletonLoader />
       </div>
     );
   }

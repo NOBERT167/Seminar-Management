@@ -89,7 +89,7 @@ const RegisterPage = () => {
 
   return (
     <ProtectedRoute allowedRoles={["user"]}>
-      <div className="min-h-screen bg-background p-6">
+      <div className="container mx-auto p-4 mt-12 md:mt-4">
         <h1 className="text-2xl font-semibold font-montserrat text-center">
           Welcome, <span className="text-primary">{userData?.Name}</span>
         </h1>

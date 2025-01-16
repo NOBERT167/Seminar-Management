@@ -91,34 +91,39 @@ const InstructorPage = () => {
 
   return (
     <ProtectedRoute allowedRoles={["admin"]}>
-      <Button onClick={openAddModal} className=" mb-4 mt-7 text-lg font-medium">
-        Add Instructor
-      </Button>
-      <h1 className="text-xl md:text-2xl font-semibold my-4 font-montserrat">
-        Available Instructors
-      </h1>
-      {isLoading ? (
-        <SeminarSkeletonLoader />
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {instructors.map((instructor, index) => (
-            <InstructorCard
-              key={index}
-              instructor={instructor}
-              onEdit={() => openEditModal(instructor)}
-              onDelete={() => handleDelete(instructor.no)}
-            />
-          ))}
-        </div>
-      )}
-      {/* Modal */}
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <InstructorForm
-          initialValues={editInstructorData || undefined}
-          onSubmit={editInstructorData ? handleEdit : handleAdd}
-          onClose={() => setIsModalOpen(false)}
-        />
-      </Modal>
+      <div className="container mx-auto p-4 mt-12 md:mt-4">
+        <Button
+          onClick={openAddModal}
+          className=" mb-4 text-lg font-medium text-white"
+        >
+          Add Instructor
+        </Button>
+        <h1 className="text-xl md:text-2xl font-semibold my-4 font-montserrat">
+          Available Instructors
+        </h1>
+        {isLoading ? (
+          <SeminarSkeletonLoader />
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {instructors.map((instructor, index) => (
+              <InstructorCard
+                key={index}
+                instructor={instructor}
+                onEdit={() => openEditModal(instructor)}
+                onDelete={() => handleDelete(instructor.no)}
+              />
+            ))}
+          </div>
+        )}
+        {/* Modal */}
+        <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+          <InstructorForm
+            initialValues={editInstructorData || undefined}
+            onSubmit={editInstructorData ? handleEdit : handleAdd}
+            onClose={() => setIsModalOpen(false)}
+          />
+        </Modal>
+      </div>
     </ProtectedRoute>
   );
 };

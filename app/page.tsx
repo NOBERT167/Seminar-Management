@@ -220,12 +220,20 @@ const HomePage = () => {
                     />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem className="font-montserrat" value="user">
-                      User
-                    </SelectItem>
-                    <SelectItem className="font-montserrat" value="admin">
-                      Admin
-                    </SelectItem>
+                    {activeTab == "register" ? (
+                      <SelectItem className="font-montserrat" value="user">
+                        User
+                      </SelectItem>
+                    ) : (
+                      <>
+                        <SelectItem className="font-montserrat" value="user">
+                          User
+                        </SelectItem>
+                        <SelectItem className="font-montserrat" value="admin">
+                          Admin
+                        </SelectItem>
+                      </>
+                    )}
                   </SelectContent>
                 </Select>
               </div>

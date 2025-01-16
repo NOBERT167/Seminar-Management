@@ -78,6 +78,7 @@ const AccountsPage = () => {
 
   return (
     <ProtectedRoute allowedRoles={["user"]}>
+      {/* <div className="container mx-auto mt-8 md:mt-0"> */}
       <div className="flex-1">
         {/* Cover image section */}
         <div className="relative h-32 md:h-44 lg:h-52">
@@ -181,6 +182,7 @@ const AccountsPage = () => {
           </div>
         </div>
       )}
+      {/* </div> */}
     </ProtectedRoute>
   );
 };
