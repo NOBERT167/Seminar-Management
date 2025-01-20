@@ -72,6 +72,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           // This will match any path that starts with /seminar-registration/ followed by any characters
           return true;
         }
+        // if (path.startsWith("/api/")) {
+        //   // This will match any path that starts with /api/ followed by any characters
+        //   return true;
+        // }
 
         return false;
       };

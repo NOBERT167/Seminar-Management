@@ -11,6 +11,7 @@ import SeminarSkeletonLoader from "../Components/SeminarSkeletonLoader";
 import { useAuth } from "../context/authcontext";
 import { getParticipantsRegistrations } from "@/services/seminarRegistrationService";
 import { RegistrationsResponse } from "@/lib/types";
+import IntaSend from "intasend-inlinejs-sdk";
 
 const MyRegistrationsPage = () => {
   const { userData } = useAuth();
@@ -36,6 +37,23 @@ const MyRegistrationsPage = () => {
 
     fetchRegistrations();
   }, [userData]);
+
+  const PUBLIC_KEY = "ISPubKey_test_2ed2756c-3af7-4f65-8a99-31afdff5c9ee";
+  let instance = new IntaSend({
+    publicAPIKey: PUBLIC_KEY,
+    live: false, // Set to true when going live
+  });
+
+  const handleClick = () => {
+    instance
+      .run({ amount: 10, currency: "KES", api_ref: "ORDER-NUMBER-OR-USER-ID" })
+      .on("COMPLETE", (response: any) => {
+        console.log("COMPLETE:", response);
+      })
+      .on("FAILED", (response: any) => {
+        console.log("FAILED:", response);
+      });
+  };
 
   return (
     <ProtectedRoute allowedRoles={["user"]}>
@@ -89,12 +107,8 @@ const MyRegistrationsPage = () => {
                   <div className="mt-4">
                     <Button
                       variant="outline"
-                      className="font-montserrat w-full dark:bg-gray-700 dark:hover:bg-slate-500"
-                      onClick={() =>
-                        toast.error(
-                          "Payment functionality is not implemented yet."
-                        )
-                      }
+                      className="intasend-btn font-montserrat w-full dark:bg-gray-700 dark:hover:bg-slate-500"
+                      onClick={handleClick}
                     >
                       Pay Now
                     </Button>
