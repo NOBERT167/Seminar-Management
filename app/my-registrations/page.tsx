@@ -19,6 +19,7 @@ const MyRegistrationsPage = () => {
     []
   );
   const [loading, setLoading] = useState(false);
+  const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
     const fetchRegistrations = async () => {
@@ -28,6 +29,14 @@ const MyRegistrationsPage = () => {
           userData?.Contact_No!
         );
         setRegistrations(response);
+
+        // Calculate total price when registrations are fetched
+        const total = response.reduce(
+          (sum: any, registration: any) =>
+            sum + (registration.SeminarPrice || 0),
+          0
+        );
+        setTotalPrice(total);
       } catch (error) {
         toast.error("Failed to fetch seminar registrations.");
       } finally {
@@ -44,14 +53,26 @@ const MyRegistrationsPage = () => {
     live: false, // Set to true when going live
   });
 
-  const handleClick = () => {
+  const handlePayment = () => {
+    if (totalPrice <= 0) {
+      toast.error("No payment required or invalid amount");
+      return;
+    }
+
     instance
-      .run({ amount: 10, currency: "KES", api_ref: "ORDER-NUMBER-OR-USER-ID" })
+      .run({
+        amount: totalPrice,
+        currency: "KES",
+        api_ref: userData?.Contact_No || "USER-ID", // Using contact number as reference
+      })
       .on("COMPLETE", (response: any) => {
         console.log("COMPLETE:", response);
+        toast.success("Payment completed successfully!");
+        // You might want to add additional logic here to update payment status
       })
       .on("FAILED", (response: any) => {
         console.log("FAILED:", response);
+        toast.error("Payment failed. Please try again.");
       });
   };
 
@@ -64,6 +85,25 @@ const MyRegistrationsPage = () => {
         <p className="font-inter text-center text-foreground/80 mb-8">
           Here are the seminars you have registered for:
         </p>
+
+        {/* Add total price display */}
+        {totalPrice > 0 && (
+          <div className="mb-6 text-center">
+            <Card className="inline-block p-4">
+              <p className="text-lg font-semibold">
+                Total Amount Due: Ksh {totalPrice.toLocaleString()}
+              </p>
+              <Button
+                variant="default"
+                className="mt-2 w-full font-montserrat"
+                onClick={handlePayment}
+              >
+                Pay All Seminars
+              </Button>
+            </Card>
+          </div>
+        )}
+
         {loading ? (
           <SeminarSkeletonLoader />
         ) : registrations.length > 0 ? (
@@ -108,7 +148,7 @@ const MyRegistrationsPage = () => {
                     <Button
                       variant="outline"
                       className="intasend-btn font-montserrat w-full dark:bg-gray-700 dark:hover:bg-slate-500"
-                      onClick={handleClick}
+                      onClick={() => handlePayment()}
                     >
                       Pay Now
                     </Button>
